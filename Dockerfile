@@ -1,15 +1,18 @@
 FROM ubuntu:20.04
 # IMPORTANT FOR MAP DOCKER SOCK
-ARG DOCKER_GID=998 
+ARG DOCKER_GID=998
 ARG DEBIAN_FRONTEND=noninteractive
 
 # set the github runner version
 ARG RUNNER_VERSION="2.298.2"
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y unzip && apt-get install -y zip
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y unzip && apt-get install -y zip curl
 # update the base packages and add a non-sudo user
 
 RUN apt-get update -y && apt-get upgrade -y && groupadd -g $DOCKER_GID docker && useradd -m -g docker docker
+
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
+RUN npm install -g @playwright/test && PLAYWRIGHT_BROWSERS_PATH=/home/docker/pw-browsers playwright install --with-deps
 
 RUN  apt install apt-transport-https ca-certificates curl software-properties-common -y
 RUN  curl -fsSL https://download.docker.com/linux/ubuntu/gpg |  apt-key add -
@@ -27,7 +30,7 @@ RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
 
 
 # install some additional dependencies
-RUN DEBIAN_FRONTEND=noninteractive chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh     
+RUN DEBIAN_FRONTEND=noninteractive chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
 
 # copy over the start.sh script
 COPY start.sh start.sh
