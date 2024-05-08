@@ -14,16 +14,16 @@ RUN apt-get update -y && apt-get upgrade -y && groupadd -g $DOCKER_GID docker &&
 RUN mkdir /usr/local/nvm
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 20.13.0
-RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
-    && nvm use default
+    && nvm use default \
+    && node --version
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-RUN node --version
 RUN npm install -g @playwright/test && PLAYWRIGHT_BROWSERS_PATH=/home/docker/pw-browsers playwright install --with-deps
 
 RUN  apt install apt-transport-https ca-certificates curl software-properties-common -y
