@@ -4,6 +4,7 @@ export GITHUB_TOKEN=sfsdafsdafsafsdfsafsafdsafsdf </br>
 
 docker compose build </br>
 docker compose up
+docker compose up --scale runner=2 -d
 
 ```
 (crontab -l ; echo '*/5 * * * * docker system prune -af --filter "until=30m"') | crontab
@@ -37,3 +38,4 @@ sudo sysctl vm.swappiness=10
 link: https://stacktuts.com/got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket-at-unix-var-run-docker-sock-get-http-2fvar-2frun-2fdocker-sock-v1-24-version-dial-unix-var-run-docker-sock-connect-permission-denied
 sudo chmod 666 /var/run/docker.sock
 ```
+
