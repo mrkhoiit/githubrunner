@@ -3,7 +3,7 @@
 export GITHUB_TOKEN=sfsdafsdafsafsdfsafsafdsafsdf </br>
 
 docker compose build </br>
-docker compose up
+docker compose up </br>
 docker compose up --scale runner=2 -d
 
 ```
